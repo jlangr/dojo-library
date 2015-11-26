@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+// TODO can we delete this class
+
 public class HoldingMap implements Iterable<Holding> {
-   private Map<String, Holding> holdings = new HashMap<String, Holding>();
+   private Map<String, Holding> holdings = new HashMap<>();
 
    public boolean isEmpty() {
       return 0 == size();

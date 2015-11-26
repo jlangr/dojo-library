@@ -3,7 +3,7 @@ package domain.core;
 import java.util.*;
 
 public class Catalog implements Iterable<Holding> {
-   private static Map<String, List<Holding>> holdings = new HashMap<String, List<Holding>>();
+   private static Map<String, List<Holding>> holdings = new HashMap<>();
 
    public void deleteAll() {
       holdings.clear();
@@ -22,7 +22,7 @@ public class Catalog implements Iterable<Holding> {
          throw new NullPointerException();
       List<Holding> list = holdings.get(key);
       if (list == null) {
-         list = new ArrayList<Holding>();
+         list = new ArrayList<>();
          holdings.put(key, list);
       }
       list.add(value);
@@ -43,7 +43,7 @@ public class Catalog implements Iterable<Holding> {
 
    @Override
    public Iterator<Holding> iterator() {
-      List<Holding> results = new ArrayList<Holding>();
+      List<Holding> results = new ArrayList<>();
       for (Iterator<List<Holding>> it = holdings.values().iterator(); it.hasNext();) {
          List<Holding> list = it.next();
          results.addAll(list);

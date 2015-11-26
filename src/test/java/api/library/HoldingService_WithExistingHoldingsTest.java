@@ -12,7 +12,7 @@ import util.*;
 import domain.core.*;
 
 public class HoldingService_WithExistingHoldingsTest {
-   private MockHoldingService service;
+   private HoldingService service;
    private Holding theTrialCopy1AtEast;
    private Holding theTrialCopy2AtWest;
    private Holding agileJavaAtWest;
@@ -23,10 +23,37 @@ public class HoldingService_WithExistingHoldingsTest {
    @Rule
    public ExpectedException exception = ExpectedException.none();
 
+   // TODO delete by using mockito
+   class FakeClassificationApi implements ClassificationApi {
+      private Map<String, MaterialDetails> materials = new HashMap<String, MaterialDetails>();
+
+      @Override
+      public boolean isValid(String classification) {
+         return materials.containsKey(classification);
+      }
+
+      public void add(MaterialDetails material) {
+         materials.put(material.getClassification(), material);
+      }
+
+      @Override
+      public MaterialDetails getMaterialDetails(String classification) {
+         return materials.get(classification);
+      }
+
+      @Override
+      public Collection<MaterialDetails> allMaterials() {
+         return materials.values();
+      }
+   }
+
+   private FakeClassificationApi classificationApi;
+
    @Before
    public void initialize() {
       new Catalog().deleteAll();
-      service = new MockHoldingService();
+      classificationApi = new FakeClassificationApi();
+      service = new HoldingService(classificationApi);
 
       addTwoBranches();
       addThreeNewHoldings();
@@ -54,7 +81,7 @@ public class HoldingService_WithExistingHoldingsTest {
 
    private Holding addHolding(String branchScanCode, MaterialDetails material, int copyNumber) {
       String holdingId = Holding.createBarCode(material.getClassification(), copyNumber);
-      service.addTestBookToMaterialService(material);
+      classificationApi.add(material);
 
       service.add(holdingId, branchScanCode);
       return service.find(holdingId);
@@ -73,7 +100,7 @@ public class HoldingService_WithExistingHoldingsTest {
    @Test
    public void storesNewHoldingAtBranch() {
       String holdingId = Holding.createBarCode(THE_TRIAL.getClassification(), 3);
-      service.addTestBookToMaterialService(THE_TRIAL);
+      classificationApi.add(THE_TRIAL);
 
       service.add(holdingId, eastScanCode);
 

@@ -6,20 +6,54 @@ import domain.core.*;
 
 public class HoldingService {
    private Catalog catalog = new Catalog();
+   private ClassificationApi classificationApi;
+
+   public HoldingService(ClassificationApi classificationApi) {
+      this.classificationApi = classificationApi;
+   }
 
    public void add(String holdingBarcode, String branchId) {
       throwIfHoldingAlreadyExists(holdingBarcode);
       catalog.add(create(holdingBarcode, branchId));
    }
 
+   private int extractCopyNumber(String code) {
+      String copy = splitOnColon(code)[1];
+      return parsePositiveInt(copy);
+   }
+
+   private String extractClassification(String barcode) {
+      return splitOnColon(barcode)[0];
+   }
+
+   private int parsePositiveInt(String text) {
+      int number = parseInt(text);
+      if (number < 1)
+         throw new IllegalArgumentException();
+      return number;
+   }
+
+   private int parseInt(String text) {
+      try {
+         return Integer.parseInt(text, 10);
+      } catch (Throwable t) {
+         throw new IllegalArgumentException();
+      }
+   }
+
+   private String[] splitOnColon(String barcode) {
+      String[] barcodeParts = barcode.split(":");
+      if (barcodeParts.length != 2)
+         throw new IllegalArgumentException();
+      return barcodeParts;
+   }
+
    private Holding create(String holdingBarcode, String branchId) {
-      String classification = HoldingBarcode.getClassification(holdingBarcode);
-      MaterialDetails material =
-            ClassificationApiFactory.getService().getMaterialDetails(classification);
+      String classification = extractClassification(holdingBarcode);
+      MaterialDetails material = classificationApi.getMaterialDetails(classification);
       if (material == null)
          throw new RuntimeException("invalid classification");
-      return new Holding(material, findBranch(branchId),
-            HoldingBarcode.getCopyNumber(holdingBarcode));
+      return new Holding(material, findBranch(branchId), extractCopyNumber(holdingBarcode));
    }
 
    private void throwIfHoldingAlreadyExists(String holdingBarcode) {

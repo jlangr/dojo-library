@@ -10,8 +10,7 @@ import domain.core.*;
 public class HoldingServiceTest {
    static final String CLASSIFICATION = "123";
    static final String WEST_BRANCH = "West";
-   static final String HOLDING_BARCODE = Holding.createBarCode(CLASSIFICATION,
-         1);
+   static final String HOLDING_BARCODE = Holding.createBarCode(CLASSIFICATION, 1);
    private HoldingService service;
    private ClassificationApi classificationApi;
    private MaterialDetails tessMaterial;
@@ -25,9 +24,8 @@ public class HoldingServiceTest {
    @Before
    public void initialize() {
       new Catalog().deleteAll();
-      service = new HoldingService();
       classificationApi = mock(ClassificationApi.class);
-      ClassificationApiFactory.setService(classificationApi);
+      service = new HoldingService(classificationApi);
 
       BranchService branchService = new BranchService();
       branchService.deleteAll();

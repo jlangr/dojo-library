@@ -4,7 +4,7 @@ import java.util.*;
 import domain.core.Branch;
 
 public class BranchService {
-   private static Map<String, Branch> branches = new HashMap<String, Branch>();
+   private static Map<String, Branch> branches = new HashMap<>();
    private static int idIndex = 0;
 
    public void deleteAll() {
