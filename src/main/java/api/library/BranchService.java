@@ -1,19 +1,29 @@
 package api.library;
 
-import java.util.Collection;
-
-import persistence.BranchStore;
+import java.util.*;
 import domain.core.Branch;
 
 public class BranchService {
-   private BranchStore store = new BranchStore();
+   private static Map<String, Branch> branches = new HashMap<String, Branch>();
+   private static int idIndex = 0;
+
+   public void deleteAll() {
+      branches.clear();
+   }
 
    public Collection<Branch> allBranches() {
-      return store.getAll();
+      return branches.values();
    }
 
    public Branch find(String scanCode) {
-      return store.findByScanCode(scanCode);
+      if (scanCode.equals(Branch.CHECKED_OUT.getScanCode()))
+         return Branch.CHECKED_OUT;
+
+      for (Branch branch: branches.values()) {
+         if (branch.getScanCode().equals(scanCode))
+            return branch;
+      }
+      return null;
    }
 
    public String add(String name) {
@@ -26,10 +36,28 @@ public class BranchService {
    }
 
    private String save(Branch branch) {
-      if (store.findByScanCode(branch.getScanCode()) != null)
-         throw new DuplicateBranchCodeException(); 
-      store.save(branch);
+      if (findByScanCode(branch.getScanCode()) != null)
+         throw new DuplicateBranchCodeException();
+      if (branch.getScanCode().equals(""))
+         branch.setScanCode("b" + (++idIndex));
+      branches.put(branch.getName(), copy(branch));
       return branch.getScanCode();
    }
 
+   private Branch findByScanCode(String scanCode) {
+      if (scanCode.equals(Branch.CHECKED_OUT.getScanCode()))
+         return Branch.CHECKED_OUT;
+
+      for (Branch branch: branches.values()) {
+         if (branch.getScanCode().equals(scanCode))
+            return branch;
+      }
+      return null;
+   }
+
+   private Branch copy(Branch branch) {
+      Branch newBranch = new Branch(branch.getName());
+      newBranch.setScanCode(branch.getScanCode());
+      return newBranch;
+   }
 }

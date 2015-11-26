@@ -17,14 +17,6 @@ public class CollectionsUtil {
       return sole;
    }
 
-   public static <T> void assertSoleElement(Collection<T> collection, Object expected) {
-      Iterator<T> it = collection.iterator();
-      Assert.assertTrue(NO_ELEMENTS, it.hasNext());
-      T first = it.next();
-      Assert.assertFalse(MORE_THAN_ONE_ELEMENT, it.hasNext());
-      Assert.assertEquals(expected, first);
-   }
-
    @SafeVarargs
    public static <T> boolean containsExactly(Collection<T> collection, T... objects) {
       if (collection.size() != objects.length)

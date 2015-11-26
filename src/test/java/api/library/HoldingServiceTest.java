@@ -24,12 +24,14 @@ public class HoldingServiceTest {
 
    @Before
    public void initialize() {
-      LibraryData.deleteAll();
+      new Catalog().deleteAll();
       service = new HoldingService();
       classificationApi = mock(ClassificationApi.class);
       ClassificationApiFactory.setService(classificationApi);
 
-      westScanCode = new BranchService().add(WEST_BRANCH);
+      BranchService branchService = new BranchService();
+      branchService.deleteAll();
+      westScanCode = branchService.add(WEST_BRANCH);
 
       tessMaterial = createTess(CLASSIFICATION);
       when(classificationApi.getMaterialDetails(CLASSIFICATION)).thenReturn(

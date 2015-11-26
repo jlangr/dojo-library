@@ -50,18 +50,11 @@ public class PatronServiceTest {
 
    @Test
    public void deleteAllRemovesAllPatrons() {
-      new PatronService().add("");
+      PatronService patrons = new PatronService();
+      patrons.add("");
 
-      new BranchService().add("");
+      patrons.deleteAll();
 
-      MockHoldingService holdingService = new MockHoldingService();
-      holdingService.addTestBookToMaterialService(new MaterialDetails("", "", "123", MaterialType.Book, ""));
-      holdingService.add("123:1", Branch.CHECKED_OUT.getScanCode());
-
-      LibraryData.deleteAll();
-
-      assertTrue(new PatronService().allPatrons().isEmpty());
-      assertTrue(holdingService.allHoldings().isEmpty());
-      assertTrue(new BranchService().allBranches().isEmpty());
+      assertTrue(patrons.allPatrons().isEmpty());
    }
 }

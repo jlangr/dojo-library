@@ -22,7 +22,7 @@ public class HoldingService_WithExistingHoldingsTest {
 
    @Before
    public void initialize() {
-      LibraryData.deleteAll();
+      new Catalog().deleteAll();
       service = new MockHoldingService();
 
       addTwoBranches();
@@ -31,16 +31,16 @@ public class HoldingService_WithExistingHoldingsTest {
    }
 
    private void addPatron() {
-      joeId = new PatronService().add("joe");
+      PatronService service = new PatronService();
+      service.deleteAll();
+      joeId = service.add("joe");
    }
 
    private void addTwoBranches() {
-      eastScanCode = add(BRANCH_EAST.getName());
-      westScanCode = add(BRANCH_WEST.getName());
-   }
-
-   private String add(String name) {
-      return new BranchService().add(name);
+      BranchService service = new BranchService();
+      service.deleteAll();
+      eastScanCode = service.add(BRANCH_EAST.getName());
+      westScanCode = service.add(BRANCH_WEST.getName());
    }
 
    private void addThreeNewHoldings() {
