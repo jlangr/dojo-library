@@ -8,13 +8,16 @@ import static org.junit.Assert.assertTrue;
 import java.util.*;
 
 import org.junit.*;
-
+import org.junit.rules.*;
 import testutil.CollectionsUtil;
 import domain.core.Branch;
 import domain.core.BranchTest;
 
 public class BranchServiceTest {
    private BranchService service;
+
+   @Rule
+   public ExpectedException exception = ExpectedException.none();
 
    @Before
    public void initialize() {
@@ -31,14 +34,20 @@ public class BranchServiceTest {
       assertThat(branch.getName(), is("name"));
    }
 
-   @Test(expected=DuplicateBranchCodeException.class)
+   @Test
    public void rejectsDuplicateScanCode() {
+      exception.expect(IllegalArgumentException.class);
+      exception.expectMessage("duplicate branch code");
+
       service.add("", "b559");
       service.add("", "b559");
    }
 
-   @Test(expected=InvalidBranchCodeException.class)
+   @Test
    public void rejectsScanCodeNotStartingWithB() {
+      exception.expect(IllegalArgumentException.class);
+      exception.expectMessage("invalid branch code");
+
       service.add("", "c2234");
    }
 

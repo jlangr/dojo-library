@@ -50,7 +50,7 @@ public class HoldingServiceTest {
    public void throwsExceptionWhenBranchNotFound() {
       try {
          service.add(HOLDING_BARCODE, "b99999");
-      } catch (BranchNotFoundException expected) {
+      } catch (RuntimeException expected) {
          assertThat(expected.getMessage(), is("Branch not found: b99999"));
       }
    }

@@ -30,7 +30,7 @@ public class HoldingService {
    private Branch findBranch(String branchId) {
       Branch branch = new BranchService().find(branchId);
       if (branch == null)
-         throw new BranchNotFoundException("Branch not found: " + branchId);
+         throw new RuntimeException("Branch not found: " + branchId);
       return branch;
    }
 

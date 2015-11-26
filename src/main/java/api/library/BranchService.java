@@ -31,13 +31,13 @@ public class BranchService {
    }
 
    public String add(String name, String scanCode) {
-      if (!scanCode.startsWith("b")) throw new InvalidBranchCodeException();
+      if (!scanCode.startsWith("b")) throw new IllegalArgumentException("invalid branch code");
       return save(new Branch(name, scanCode));
    }
 
    private String save(Branch branch) {
       if (findByScanCode(branch.getScanCode()) != null)
-         throw new DuplicateBranchCodeException();
+         throw new IllegalArgumentException("duplicate branch code");
       if (branch.getScanCode().equals(""))
          branch.setScanCode("b" + (++idIndex));
       branches.put(branch.getName(), copy(branch));
