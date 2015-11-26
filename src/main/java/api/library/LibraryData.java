@@ -1,12 +1,12 @@
 package api.library;
 
+import domain.core.*;
 import persistence.BranchStore;
-import persistence.HoldingStore;
 
 public class LibraryData {
    public static void deleteAll() {
       BranchStore.deleteAll();
-      HoldingStore.deleteAll();
+      new Catalog().deleteAll();
       new PatronService().deleteAll();
    }
 }
