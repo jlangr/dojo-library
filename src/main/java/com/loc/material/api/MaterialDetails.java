@@ -7,8 +7,8 @@ public class MaterialDetails {
    private MaterialType format;
    private String classification;
 
-   public MaterialDetails(String author, String title, String classification,
-         MaterialType format, String year) {
+   public MaterialDetails(String author, String title, String classification, MaterialType format,
+         String year) {
       this.author = author;
       this.title = title;
       this.classification = classification;
@@ -16,8 +16,7 @@ public class MaterialDetails {
       this.year = year;
    }
 
-   public MaterialDetails(String author, String title, String classification,
-         String year) {
+   public MaterialDetails(String author, String title, String classification, String year) {
       this(author, title, classification, MaterialType.Book, year);
    }
 

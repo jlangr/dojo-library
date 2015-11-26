@@ -1,8 +1,8 @@
 package domain.core;
 
 import java.util.Date;
-import com.loc.material.api.*;
-import util.*;
+import com.loc.material.api.MaterialDetails;
+import util.DateUtil;
 
 public class Holding {
    public static final String BARCODE_SEPARATOR = ":";
@@ -86,26 +86,6 @@ public class Holding {
       return classification + BARCODE_SEPARATOR + copyNumber;
    }
 
-   @Override
-   public boolean equals(Object object) {
-      if (object == null)
-         return false;
-      if (this.getClass() != object.getClass())
-         return false;
-      Holding that = (Holding)object;
-      return this.getBarCode().equals(that.getBarCode());
-   }
-
-   @Override
-   public String toString() {
-      return material.toString() + "(" + copyNumber + ") @ " + branch.getName();
-   }
-
-   @Override
-   public int hashCode() {
-      return getBarCode().hashCode();
-   }
-
    public static int getCopyNumber(String barcode) {
       String copy = splitOnColon(barcode)[1];
       return parsePositiveInt(copy);
@@ -117,15 +97,13 @@ public class Holding {
 
    private static int parsePositiveInt(String text) {
       int number = parseInt(text);
-      if (number < 1)
-         throw new IllegalArgumentException();
+      if (number < 1) throw new IllegalArgumentException();
       return number;
    }
 
    private static String[] splitOnColon(String barcode) {
       String[] barcodeParts = barcode.split(":");
-      if (barcodeParts.length != 2)
-         throw new IllegalArgumentException();
+      if (barcodeParts.length != 2) throw new IllegalArgumentException();
       return barcodeParts;
    }
 
@@ -139,5 +117,23 @@ public class Holding {
 
    public int daysLate() {
       return DateUtil.daysAfter(dateDue(), dateLastCheckedIn());
+   }
+
+   @Override
+   public boolean equals(Object object) {
+      if (object == null) return false;
+      if (this.getClass() != object.getClass()) return false;
+      Holding that = (Holding)object;
+      return this.getBarCode().equals(that.getBarCode());
+   }
+
+   @Override
+   public String toString() {
+      return material.toString() + "(" + copyNumber + ") @ " + branch.getName();
+   }
+
+   @Override
+   public int hashCode() {
+      return getBarCode().hashCode();
    }
 }

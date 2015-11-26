@@ -1,14 +1,13 @@
 package domain.core;
 
 import static domain.core.MaterialTestData.*;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 import java.util.*;
-
 import org.junit.*;
 import com.loc.material.api.*;
-import testutil.*;
-import util.*;
+import testutil.EqualityTester;
+import util.DateUtil;
 
 public class HoldingTest {
    private Holding holding;
@@ -43,23 +42,22 @@ public class HoldingTest {
 
    @Test
    public void generatesBarCodeFromClassificationAndCopy() {
-      assertEquals(THE_TRIAL.getClassification() + Holding.BARCODE_SEPARATOR
-            + COPY_NUMBER_1, holding.getBarCode());
+      assertEquals(THE_TRIAL.getClassification() + Holding.BARCODE_SEPARATOR + COPY_NUMBER_1,
+            holding.getBarCode());
 
-      assertEquals("a" + Holding.BARCODE_SEPARATOR + "2",
-            Holding.createBarCode("a", 2));
+      assertEquals("a" + Holding.BARCODE_SEPARATOR + "2", Holding.createBarCode("a", 2));
    }
 
    @Test
    public void extractsClassificationFromBarcode() {
-      assertThat(Holding.getClassification("123:1"), is("123"));
-      assertThat(Holding.getClassification("456:1"), is("456"));
+      assertThat(Holding.getClassification("123:1"), equalTo("123"));
+      assertThat(Holding.getClassification("456:1"), equalTo("456"));
    }
 
    @Test
    public void extractsCopyNumberFromBarcode() {
-      assertThat(Holding.getCopyNumber("123:1"), is(1));
-      assertThat(Holding.getCopyNumber("123:2"), is(2));
+      assertThat(Holding.getCopyNumber("123:1"), equalTo(1));
+      assertThat(Holding.getCopyNumber("123:2"), equalTo(2));
    }
 
    @Test(expected = IllegalArgumentException.class)
@@ -130,7 +128,7 @@ public class HoldingTest {
 
       int daysLate = holding.checkIn(TODAY, BranchTest.BRANCH_EAST);
 
-      assertThat(daysLate, is(0));
+      assertThat(daysLate, equalTo(0));
    }
 
    @Test
@@ -139,7 +137,7 @@ public class HoldingTest {
 
       int daysLate = holding.checkIn(holding.dateDue(), BranchTest.BRANCH_EAST);
 
-      assertThat(daysLate, is(0));
+      assertThat(daysLate, equalTo(0));
    }
 
    @Test
@@ -149,7 +147,7 @@ public class HoldingTest {
 
       int daysLate = holding.checkIn(threeDaysLate, BranchTest.BRANCH_EAST);
 
-      assertThat(daysLate, is(3));
+      assertThat(daysLate, equalTo(3));
    }
 
    private void checkOutToday(MaterialDetails material, Branch branch) {
@@ -189,11 +187,9 @@ public class HoldingTest {
       Holding holding1Copy1 = new Holding(THE_TRIAL, BranchTest.BRANCH_WEST, 1); // diff loc but same copy
       Holding holding1Copy2 = new Holding(THE_TRIAL, Branch.CHECKED_OUT, 1);
       Holding holding2 = new Holding(THE_TRIAL, BranchTest.BRANCH_EAST, 2); // 2nd copy
-      Holding holding1Subtype = new Holding(THE_TRIAL, BranchTest.BRANCH_EAST,
-            1) {
+      Holding holding1Subtype = new Holding(THE_TRIAL, BranchTest.BRANCH_EAST, 1) {
       };
 
-      new EqualityTester(holding1, holding1Copy1, holding1Copy2, holding2,
-            holding1Subtype).verify();
+      new EqualityTester(holding1, holding1Copy1, holding1Copy2, holding2, holding1Subtype).verify();
    }
 }

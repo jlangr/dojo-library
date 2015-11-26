@@ -11,15 +11,13 @@ public class Catalog implements Iterable<Holding> {
 
    public void add(Holding holding) {
       List<Holding> existing = findAll(holding.getMaterial().getClassification());
-      if (!existing.isEmpty())
-         holding.setCopyNumber(existing.size() + 1);
+      if (!existing.isEmpty()) holding.setCopyNumber(existing.size() + 1);
 
       put(holding.getMaterial().getClassification(), copy(holding));
    }
 
    private void put(String key, Holding value) {
-      if (key == null)
-         throw new NullPointerException();
+      if (key == null) throw new NullPointerException();
       List<Holding> list = holdings.get(key);
       if (list == null) {
          list = new ArrayList<>();
@@ -28,16 +26,13 @@ public class Catalog implements Iterable<Holding> {
       list.add(value);
    }
 
-
    private Holding copy(Holding holding) {
-      return new Holding(holding.getMaterial(), holding.getBranch(),
-            holding.getCopyNumber());
+      return new Holding(holding.getMaterial(), holding.getBranch(), holding.getCopyNumber());
    }
 
    public List<Holding> findAll(String classification) {
       List<Holding> results = holdings.get(classification);
-      if (results == null)
-         return new ArrayList<Holding>();
+      if (results == null) return new ArrayList<Holding>();
       return results;
    }
 
@@ -53,11 +48,9 @@ public class Catalog implements Iterable<Holding> {
 
    public Holding find(String barCode) {
       List<Holding> results = holdings.get(classificationFrom(barCode));
-      if (results == null)
-         return null;
+      if (results == null) return null;
       for (Holding holding: results)
-         if (holding.getBarCode().equals(barCode))
-            return holding;
+         if (holding.getBarCode().equals(barCode)) return holding;
       return null;
    }
 

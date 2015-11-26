@@ -8,7 +8,7 @@ public class Branch {
    public Branch(String name) {
       this(name, "");
    }
-   
+
    public Branch(String name, String scanCode) {
       this.name = name;
       this.scanCode = scanCode;
@@ -24,10 +24,8 @@ public class Branch {
 
    @Override
    public boolean equals(Object object) {
-      if (object == null)
-         return false;
-      if ((object.getClass() != this.getClass()))
-         return false;
+      if (object == null) return false;
+      if ((object.getClass() != this.getClass())) return false;
       Branch that = (Branch)object;
       return this.getScanCode().equals(that.getScanCode());
    }

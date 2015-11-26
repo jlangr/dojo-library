@@ -32,7 +32,7 @@ public class PatronServiceTest {
 
       Patron patron = service.find("p123");
 
-      assertThat(patron.getName(), is("xyz"));
+      assertThat(patron.getName(), equalTo("xyz"));
    }
 
    @Test

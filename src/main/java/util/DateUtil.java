@@ -1,9 +1,7 @@
 package util;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import static java.util.Calendar.*;
+import java.util.*;
 
 public class DateUtil {
    private static final long MS_IN_DAY = 1000L * 60 * 60 * 24;
@@ -47,8 +45,7 @@ public class DateUtil {
    }
 
    public static int daysAfter(Date first, Date second) {
-      if (!second.after(first))
-         return 0;
+      if (!second.after(first)) return 0;
 
       calendar.setTime(first);
       int dayOfYear1 = calendar.get(DAY_OF_YEAR);

@@ -3,8 +3,8 @@ package domain.core;
 public class Patron {
    private final String name;
    private String id;
-   private HoldingMap s = new HoldingMap();
-   private int bal = 0;
+   private HoldingMap holdings = new HoldingMap();
+   private int balalance = 0;
 
    public Patron(String name, String id) {
       this.name = name;
@@ -34,47 +34,33 @@ public class Patron {
 
    @Override
    public boolean equals(Object object) {
-      if (object == null)
-         return false;
-      if ((object.getClass() != this.getClass()))
-         return false;
+      if (object == null) return false;
+      if ((object.getClass() != this.getClass())) return false;
       Patron that = (Patron)object;
       return this.getId().equals(that.getId());
    }
 
    public HoldingMap holdings() {
-      return s;
+      return holdings;
    }
 
    public void add(Holding holding) {
-      s.add(holding);
+      holdings.add(holding);
    }
 
    public void remove(Holding holding) {
-      s.remove(holding);
+      holdings.remove(holding);
    }
 
    public int fineBalance() {
-      return bal;
+      return balalance;
    }
 
-   /**
-    * add a fine to the patron's balance
-    * 
-    * @param a
-    *           the amount to add to the balance
-    */
-   public void addFine(int a) {
-      bal += a;
+   public void addFine(int amount) {
+      balalance += amount;
    }
 
-   /**
-    * add a fine to the patron's balance
-    * 
-    * @param a
-    *           the amount to add to the balance
-    */
-   public void remit(int a) {
-      bal -= a;
+   public void remit(int amount) {
+      balalance -= amount;
    }
 }

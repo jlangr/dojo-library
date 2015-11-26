@@ -1,10 +1,9 @@
 package testutil;
 
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.*;
 import org.junit.*;
 
-public class CollectionsUtil {
+public class TestUtil {
    static final String NO_ELEMENTS = "no elements";
    static final String MORE_THAN_ONE_ELEMENT = "more than one element";
    public static final String EXPECTED = "expected element not retrieved";
@@ -19,11 +18,9 @@ public class CollectionsUtil {
 
    @SafeVarargs
    public static <T> boolean containsExactly(Collection<T> collection, T... objects) {
-      if (collection.size() != objects.length)
-         return false;
+      if (collection.size() != objects.length) return false;
       for (int i = 0; i < objects.length; i++)
-         if (!collection.contains(objects[i]))
-            return false;
+         if (!collection.contains(objects[i])) return false;
       return true;
    }
 }

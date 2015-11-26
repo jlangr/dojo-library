@@ -1,15 +1,15 @@
 package api.library;
 
-import static domain.core.MaterialTestData.*;
 import static domain.core.BranchTest.*;
-import static org.hamcrest.CoreMatchers.*;
+import static domain.core.MaterialTestData.*;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 import java.util.*;
 import org.junit.*;
-import org.junit.rules.*;
+import org.junit.rules.ExpectedException;
 import com.loc.material.api.*;
-import util.*;
 import domain.core.*;
+import util.DateUtil;
 
 public class HoldingService_WithExistingHoldingsTest {
    private HoldingService service;
@@ -110,7 +110,7 @@ public class HoldingService_WithExistingHoldingsTest {
 
    @Test
    public void findByBarCodeReturnsNullWhenNotFound() {
-      assertThat(service.find("999:1"), is((Holding)null));
+      assertThat(service.find("999:1"), equalTo((Holding)null));
    }
 
    @Test
@@ -122,14 +122,14 @@ public class HoldingService_WithExistingHoldingsTest {
 
    @Test
    public void holdingIsAvailableWhenNotCheckedOut() {
-      assertThat(service.isAvailable(agileJavaAtWest.getBarCode()), is(true));
+      assertThat(service.isAvailable(agileJavaAtWest.getBarCode()), equalTo(true));
    }
 
    @Test
    public void holdingMadeUnavailableOnCheckout() {
       service.checkOut(joeId, agileJavaAtWest.getBarCode(), new Date());
 
-      assertThat(service.isAvailable(agileJavaAtWest.getBarCode()), is(false));
+      assertThat(service.isAvailable(agileJavaAtWest.getBarCode()), equalTo(false));
    }
 
    @Test
@@ -158,10 +158,10 @@ public class HoldingService_WithExistingHoldingsTest {
 
    @Test
    public void checkoutThrowsWhenUnavailable() {
+      service.checkOut(joeId, agileJavaAtWest.getBarCode(), new Date());
       exception.expect(RuntimeException.class);
       exception.expectMessage("holding already checked out");
 
-      service.checkOut(joeId, agileJavaAtWest.getBarCode(), new Date());
       service.checkOut(joeId, agileJavaAtWest.getBarCode(), new Date());
    }
 
@@ -204,7 +204,7 @@ public class HoldingService_WithExistingHoldingsTest {
       Date due = service.dateDue(barCode);
 
       Holding holding = service.find(barCode);
-      assertThat(due, is(holding.dateDue()));
+      assertThat(due, equalTo(holding.dateDue()));
    }
 
    @Test
@@ -215,7 +215,7 @@ public class HoldingService_WithExistingHoldingsTest {
 
       int daysLate = service.checkIn(barCode, fiveDaysLate, EAST_SCAN);
 
-      assertThat(daysLate, is(5));
+      assertThat(daysLate, equalTo(5));
    }
 
    @Test

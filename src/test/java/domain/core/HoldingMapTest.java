@@ -1,17 +1,9 @@
 package domain.core;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Collection;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import testutil.CollectionsUtil;
+import static org.junit.Assert.*;
+import java.util.*;
+import org.junit.*;
+import testutil.TestUtil;
 
 public class HoldingMapTest {
    private HoldingMap map;
@@ -36,8 +28,8 @@ public class HoldingMapTest {
    @Test
    public void containsAddedHolding() {
       map.add(HOLDING1);
-      assertTrue(map.contains(HOLDING1));
 
+      assertTrue(map.contains(HOLDING1));
    }
 
    @Test
@@ -103,7 +95,7 @@ public class HoldingMapTest {
       for (Holding holding: map)
          retrieved.add(holding);
 
-      CollectionsUtil.containsExactly(retrieved, HOLDING1, HOLDING2);
+      TestUtil.containsExactly(retrieved, HOLDING1, HOLDING2);
    }
 
    private void assertSize(int expected) {

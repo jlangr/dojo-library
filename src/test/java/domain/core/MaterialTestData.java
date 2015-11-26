@@ -24,6 +24,6 @@ public class MaterialTestData {
          LANGR_CLASSIFICATION, LANGR_YEAR);
    public static final MaterialDetails DR_STRANGELOVE = new MaterialDetails(STRANGELOVE_DIRECTOR,
          STRANGELOVE_TITLE, STRANGELOVE_CLASSIFICATION, MaterialType.DVD, STRANGELOVE_YEAR);
-   public static final MaterialDetails THE_TRIAL_NEW_EDITION = new MaterialDetails(KAFKA_AUTHOR,
-         KAFKA_TITLE, KAFKA_CLASSIFICATION, MaterialType.Book, KAFKA_YEAR);
+   public static final MaterialDetails THE_TRIAL_NEW_EDITION = new MaterialDetails(KAFKA_AUTHOR, KAFKA_TITLE,
+         KAFKA_CLASSIFICATION, MaterialType.Book, KAFKA_YEAR);
 }

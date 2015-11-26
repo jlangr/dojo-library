@@ -1,12 +1,13 @@
 package domain.core;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
 import org.junit.*;
-import testutil.*;
+import testutil.EqualityTester;
 
 public class PatronTest {
    private Patron jane;
+   private static final Holding A_HOLDING = new Holding(MaterialTestData.THE_TRIAL, BranchTest.BRANCH_EAST);
 
    @Before
    public void initialize() {
@@ -15,7 +16,7 @@ public class PatronTest {
 
    @Test
    public void defaultsIdToEmpty() {
-      assertThat(jane.getId(), is(""));
+      assertThat(jane.getId(), equalTo(""));
    }
 
    @Test
@@ -30,20 +31,17 @@ public class PatronTest {
 
    @Test
    public void returnsHoldingsAdded() {
-      Holding holding = new Holding(MaterialTestData.THE_TRIAL, BranchTest.BRANCH_EAST);
-
-      jane.add(holding);
+      jane.add(A_HOLDING);
 
       assertEquals(1, jane.holdings().size());
-      assertTrue(jane.holdings().contains(holding));
+      assertTrue(jane.holdings().contains(A_HOLDING));
    }
 
    @Test
    public void removesHoldingFromPatron() {
-      Holding holding = new Holding(MaterialTestData.THE_TRIAL, BranchTest.BRANCH_EAST);
-      jane.add(holding);
+      jane.add(A_HOLDING);
 
-      jane.remove(holding);
+      jane.remove(A_HOLDING);
 
       assertTrue(jane.holdings().isEmpty());
    }

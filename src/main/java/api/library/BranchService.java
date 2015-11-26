@@ -16,13 +16,9 @@ public class BranchService {
    }
 
    public Branch find(String scanCode) {
-      if (scanCode.equals(Branch.CHECKED_OUT.getScanCode()))
-         return Branch.CHECKED_OUT;
-
-      for (Branch branch: branches.values()) {
-         if (branch.getScanCode().equals(scanCode))
-            return branch;
-      }
+      if (scanCode.equals(Branch.CHECKED_OUT.getScanCode())) return Branch.CHECKED_OUT;
+      for (Branch branch: branches.values())
+         if (branch.getScanCode().equals(scanCode)) return branch;
       return null;
    }
 
@@ -31,7 +27,8 @@ public class BranchService {
    }
 
    public String add(String name, String scanCode) {
-      if (!scanCode.startsWith("b")) throw new IllegalArgumentException("invalid branch code");
+      if (!scanCode.startsWith("b"))
+         throw new IllegalArgumentException("invalid branch code");
       return save(new Branch(name, scanCode));
    }
 
@@ -48,10 +45,8 @@ public class BranchService {
       if (scanCode.equals(Branch.CHECKED_OUT.getScanCode()))
          return Branch.CHECKED_OUT;
 
-      for (Branch branch: branches.values()) {
-         if (branch.getScanCode().equals(scanCode))
-            return branch;
-      }
+      for (Branch branch: branches.values())
+         if (branch.getScanCode().equals(scanCode)) return branch;
       return null;
    }
 

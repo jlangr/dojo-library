@@ -1,17 +1,13 @@
 package api.library;
 
-import static domain.core.BranchTest.BRANCH_EAST;
-import static domain.core.BranchTest.BRANCH_WEST;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import java.util.*;
-
+import static domain.core.BranchTest.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.*;
+import java.util.Collection;
 import org.junit.*;
-import org.junit.rules.*;
-import testutil.CollectionsUtil;
-import domain.core.Branch;
-import domain.core.BranchTest;
+import org.junit.rules.ExpectedException;
+import domain.core.*;
+import testutil.TestUtil;
 
 public class BranchServiceTest {
    private BranchService service;
@@ -31,7 +27,7 @@ public class BranchServiceTest {
 
       Branch branch = service.find("b2");
 
-      assertThat(branch.getName(), is("name"));
+      assertThat(branch.getName(), equalTo("name"));
    }
 
    @Test
@@ -58,24 +54,17 @@ public class BranchServiceTest {
    }
 
    @Test
-   public void capturesBranchFields() {
-      service.add(BranchTest.BRANCH_EAST.getName());
-      Branch branch = CollectionsUtil.soleElement(new BranchService().allBranches());
-
-      assertThat(branch.getName(), is(BRANCH_EAST.getName()));
-   }
-
-   @Test
    public void findsBranchMatchingScanCode() {
       String scanCode = service.add(BranchTest.BRANCH_EAST.getName());
+
       Branch branch = service.find(scanCode);
 
-      assertThat(branch.getName(), is(BRANCH_EAST.getName()));
-      assertThat(branch.getScanCode(), is(scanCode));
+      assertThat(branch.getName(), equalTo(BRANCH_EAST.getName()));
+      assertThat(branch.getScanCode(), equalTo(scanCode));
    }
 
    @Test
-   public void returnsListOfAllPersistedBranches() {
+   public void allBranchesReturnsListOfAllPersistedBranches() {
       String eastScanCode = service.add(BRANCH_EAST.getName());
       String westScanCode = service.add(BRANCH_WEST.getName());
 
@@ -83,6 +72,6 @@ public class BranchServiceTest {
 
       Branch east = service.find(eastScanCode);
       Branch west = service.find(westScanCode);
-      assertTrue(CollectionsUtil.containsExactly(all, east, west));
+      assertTrue(TestUtil.containsExactly(all, east, west));
    }
 }
