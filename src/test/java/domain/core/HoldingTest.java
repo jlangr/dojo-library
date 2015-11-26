@@ -162,7 +162,11 @@ public class HoldingTest {
    }
 
    static void assertMaterial(MaterialDetails expected, Holding holding) {
-      MaterialTest.assertMaterialsEqual(expected, holding.getMaterial());
+      MaterialDetails actual = holding.getMaterial();
+      assertEquals(expected.getAuthor(), actual.getAuthor());
+      assertEquals(expected.getClassification(), actual.getClassification());
+      assertEquals(expected.getTitle(), actual.getTitle());
+      assertEquals(expected.getYear(), actual.getYear());
    }
 
    public static Date addDays(Date date, int days) {
