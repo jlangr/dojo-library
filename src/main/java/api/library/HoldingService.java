@@ -75,11 +75,11 @@ public class HoldingService {
       return holding.isAvailable();
    }
 
-   public HoldingMap allHoldings() {
-      HoldingMap stack = new HoldingMap();
+   public List<Holding> holdings() {
+      List<Holding> holdings = new ArrayList<>();
       for (Holding holding: catalog)
-         stack.add(holding);
-      return stack;
+         holdings.add(holding);
+      return holdings;
    }
 
    public Holding find(String barCode) {
@@ -120,14 +120,14 @@ public class HoldingService {
          throw new RuntimeException("holding not found");
 
       // set the holding to returned status
-      HoldingMap holdings = null;
+      List<Holding> holdings = null;
       hld.checkIn(date, branch);
 
       // locate the patron with the checked out book
       // could introduce a patron reference ID in the holding...
       Patron f = null;
       for (Patron p: new PatronService().allPatrons()) {
-         holdings = p.holdings();
+         holdings = p.getHoldings();
          for (Holding patHld: holdings) {
             if (hld.getBarCode().equals(patHld.getBarCode()))
                f = p;

@@ -1,9 +1,11 @@
 package domain.core;
 
+import java.util.*;
+
 public class Patron {
    private final String name;
    private String id;
-   private HoldingMap holdings = new HoldingMap();
+   private Map<String,Holding> holdings = new HashMap<>();
    private int balalance = 0;
 
    public Patron(String name, String id) {
@@ -40,16 +42,16 @@ public class Patron {
       return this.getId().equals(that.getId());
    }
 
-   public HoldingMap holdings() {
-      return holdings;
+   public List<Holding> getHoldings() {
+      return new ArrayList<Holding>(holdings.values());
    }
 
    public void add(Holding holding) {
-      holdings.add(holding);
+      holdings.put(holding.getBarCode(), holding);
    }
 
    public void remove(Holding holding) {
-      holdings.remove(holding);
+      holdings.remove(holding.getBarCode());
    }
 
    public int fineBalance() {

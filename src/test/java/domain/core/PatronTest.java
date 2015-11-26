@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.*;
 import testutil.EqualityTester;
 
+// TODO ASSERTTHAT
 public class PatronTest {
    private Patron jane;
    private static final Holding A_HOLDING = new Holding(MaterialTestData.THE_TRIAL, BranchTest.BRANCH_EAST);
@@ -26,15 +27,15 @@ public class PatronTest {
 
    @Test
    public void holdingsAreEmptyOnCreation() {
-      assertTrue(jane.holdings().isEmpty());
+      assertTrue(jane.getHoldings().isEmpty());
    }
 
    @Test
    public void returnsHoldingsAdded() {
       jane.add(A_HOLDING);
 
-      assertEquals(1, jane.holdings().size());
-      assertTrue(jane.holdings().contains(A_HOLDING));
+      assertEquals(1, jane.getHoldings().size());
+      assertTrue(jane.getHoldings().contains(A_HOLDING));
    }
 
    @Test
@@ -43,7 +44,7 @@ public class PatronTest {
 
       jane.remove(A_HOLDING);
 
-      assertTrue(jane.holdings().isEmpty());
+      assertTrue(jane.getHoldings().isEmpty());
    }
 
    @Test

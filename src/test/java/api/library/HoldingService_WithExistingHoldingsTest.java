@@ -89,7 +89,7 @@ public class HoldingService_WithExistingHoldingsTest {
 
    @Test
    public void returnsEntireInventoryOfHoldings() {
-      HoldingMap holdings = service.allHoldings();
+      List<Holding> holdings = service.holdings();
 
       assertEquals(3, holdings.size());
       assertTrue(holdings.contains(theTrialCopy1AtEast));
@@ -171,7 +171,7 @@ public class HoldingService_WithExistingHoldingsTest {
 
       service.checkOut(joeId, barCode, new Date());
 
-      HoldingMap patronHoldings = retrieve(joeId).holdings();
+      List<Holding> patronHoldings = retrieve(joeId).getHoldings();
       assertEquals(1, patronHoldings.size());
       assertTrue(patronHoldings.contains(service.find(barCode)));
    }
@@ -193,7 +193,7 @@ public class HoldingService_WithExistingHoldingsTest {
 
       service.checkIn(barCode, DateUtil.tomorrow(), westScanCode);
 
-      assertTrue(retrieve(joeId).holdings().isEmpty());
+      assertTrue(retrieve(joeId).getHoldings().isEmpty());
    }
 
    @Test
