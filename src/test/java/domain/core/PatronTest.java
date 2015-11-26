@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.*;
 import testutil.EqualityTester;
 
-// TODO ASSERTTHAT
 public class PatronTest {
    private Patron jane;
    private static final Holding A_HOLDING = new Holding(MaterialTestData.THE_TRIAL, BranchTest.BRANCH_EAST);
@@ -22,7 +21,7 @@ public class PatronTest {
 
    @Test
    public void fineBalanceIsZeroOnCreation() {
-      assertEquals(0, jane.fineBalance());
+      assertThat(jane.fineBalance(), equalTo(0));
    }
 
    @Test
@@ -34,7 +33,7 @@ public class PatronTest {
    public void returnsHoldingsAdded() {
       jane.add(A_HOLDING);
 
-      assertEquals(1, jane.getHoldings().size());
+      assertThat(jane.getHoldings().size(), equalTo(1));
       assertTrue(jane.getHoldings().contains(A_HOLDING));
    }
 
@@ -50,23 +49,23 @@ public class PatronTest {
    @Test
    public void storesFines() {
       jane.addFine(10);
-      assertEquals(10, jane.fineBalance());
+      assertThat(jane.fineBalance(), equalTo(10));
    }
 
    @Test
    public void increasesBalanceOnAdditionalFines() {
       jane.addFine(10);
       jane.addFine(30);
-      assertEquals(40, jane.fineBalance());
+      assertThat(jane.fineBalance(), equalTo(40));
    }
 
    @Test
    public void decreasesBalanceWhenPatronRemitsAmount() {
       jane.addFine(40);
       jane.remit(25);
-      assertEquals(15, jane.fineBalance());
+      assertThat(jane.fineBalance(), equalTo(15));
       jane.remit(15);
-      assertEquals(0, jane.fineBalance());
+      assertThat(jane.fineBalance(), equalTo(0));
    }
 
    @Test

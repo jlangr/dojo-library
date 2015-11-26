@@ -91,7 +91,7 @@ public class HoldingService_WithExistingHoldingsTest {
    public void returnsEntireInventoryOfHoldings() {
       List<Holding> holdings = service.holdings();
 
-      assertEquals(3, holdings.size());
+      assertThat(holdings.size(), equalTo(3));
       assertTrue(holdings.contains(theTrialCopy1AtEast));
       assertTrue(holdings.contains(theTrialCopy2AtWest));
       assertTrue(holdings.contains(agileJavaAtWest));
@@ -105,7 +105,7 @@ public class HoldingService_WithExistingHoldingsTest {
       service.add(holdingId, eastScanCode);
 
       Holding added = service.find(holdingId);
-      assertEquals(eastScanCode, added.getBranch().getScanCode());
+      assertThat(added.getBranch().getScanCode(), equalTo(eastScanCode));
    }
 
    @Test
@@ -117,7 +117,7 @@ public class HoldingService_WithExistingHoldingsTest {
    public void updatesBranchOnHoldingTransfer() {
       service.transfer(agileJavaAtWest, BRANCH_EAST);
 
-      assertEquals(BRANCH_EAST, agileJavaAtWest.getBranch());
+      assertThat(agileJavaAtWest.getBranch(), equalTo(BRANCH_EAST));
    }
 
    @Test
@@ -172,7 +172,7 @@ public class HoldingService_WithExistingHoldingsTest {
       service.checkOut(joeId, barCode, new Date());
 
       List<Holding> patronHoldings = retrieve(joeId).getHoldings();
-      assertEquals(1, patronHoldings.size());
+      assertThat(patronHoldings.size(), equalTo(1));
       assertTrue(patronHoldings.contains(service.find(barCode)));
    }
 
@@ -183,7 +183,7 @@ public class HoldingService_WithExistingHoldingsTest {
       service.checkIn(barCode, DateUtil.tomorrow(), eastScanCode);
 
       assertTrue(agileJavaAtWest.isAvailable());
-      assertEquals(eastScanCode, agileJavaAtWest.getBranch().getScanCode());
+      assertThat(agileJavaAtWest.getBranch().getScanCode(), equalTo(eastScanCode));
    }
 
    @Test
@@ -227,7 +227,7 @@ public class HoldingService_WithExistingHoldingsTest {
       Date oneDayLate = DateUtil.addDays(holding.dateDue(), 1);
       service.checkIn(barCode, oneDayLate, eastScanCode);
 
-      assertEquals(MaterialType.Book.getDailyFine(), retrieve(joeId).fineBalance());
+      assertThat(retrieve(joeId).fineBalance(), equalTo(MaterialType.Book.getDailyFine()));
    }
 
    private Patron retrieve(String id) {
