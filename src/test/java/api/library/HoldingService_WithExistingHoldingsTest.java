@@ -189,6 +189,6 @@ public class HoldingService_WithExistingHoldingsTest {
    }
 
    private Patron retrieve(String id) {
-      return new PatronStore().find(id);
+      return new PatronService().find(id);
    }
 }

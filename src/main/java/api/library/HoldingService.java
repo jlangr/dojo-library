@@ -74,9 +74,10 @@ public class HoldingService {
          throw new HoldingAlreadyCheckedOutException();
       holding.checkOut(date);
 
-      PatronStore patronAccess = new PatronStore();
-      Patron patron = patronAccess.find(patronId);
-      patronAccess.addHoldingToPatron(patron, holding);
+//      PatronStore patronAccess = new PatronStore();
+      PatronService patronService = new PatronService();
+      Patron patron = patronService.find(patronId);
+      patronService.addHoldingToPatron(patron, holding);
    }
 
    @SuppressWarnings("incomplete-switch")

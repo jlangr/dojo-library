@@ -1,16 +1,15 @@
 package api.library;
 
 import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
+import org.junit.*;
 import com.loc.material.api.*;
 import domain.core.*;
 
 public class LibraryDataTest {
-   @Test
+   // TODO move to PatronServiceTest
+   @Ignore @Test
    public void deleteAllRemovesAllPatrons() {
-      Patron patron = new Patron("111", "");
-      new PatronService().patronAccess.add(patron);
+      new PatronService().add("");
 
       new BranchService().add("");
 

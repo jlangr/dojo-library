@@ -3,7 +3,6 @@ package api.library;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import org.junit.*;
-import persistence.*;
 import domain.core.*;
 
 public class PatronServiceTest {
@@ -13,8 +12,8 @@ public class PatronServiceTest {
 
    @Before
    public void initialize() {
-      PatronStore.deleteAll();
       service = new PatronService();
+      service.deleteAll();
    }
 
    @Test

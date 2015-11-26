@@ -1,12 +1,15 @@
 package api.library;
 
-import java.util.Collection;
-
-import persistence.PatronStore;
-import domain.core.Patron;
+import java.util.*;
+import domain.core.*;
 
 public class PatronService {
-   public PatronStore patronAccess = new PatronStore();
+   private static Collection<Patron> patrons = new ArrayList<Patron>();
+   private static int idIndex = 0;
+
+   public void deleteAll() {
+      patrons.clear();
+   }
 
    public String add(String name) {
       return save(new Patron(name));
@@ -18,17 +21,36 @@ public class PatronService {
    }
 
    private String save(Patron newPatron) {
-      if (patronAccess.find(newPatron.getId()) != null)
+      if (find(newPatron.getId()) != null)
          throw new DuplicatePatronException();
-      patronAccess.add(newPatron);
+
+      if (newPatron.getId() == "")
+         newPatron.setId("p" + (++idIndex));
+      patrons.add(copy(newPatron));
       return newPatron.getId();
    }
 
+   private Patron copy(Patron patron) {
+      Patron newPatron = new Patron(patron.getName());
+      newPatron.setId(patron.getId());
+      return newPatron;
+   }
+
    public Patron find(String id) {
-      return patronAccess.find(id);
+      for (Patron each: patrons)
+         if (id.equals(each.getId()))
+            return each;
+      return null;
    }
 
    public Collection<Patron> allPatrons() {
-      return patronAccess.getAll();
+      return patrons;
+   }
+
+   public void addHoldingToPatron(Patron patron, Holding holding) {
+      Patron found = find(patron.getId());
+      if (found == null)
+         throw new PatronNotFoundException();
+      found.add(holding);
    }
 }
