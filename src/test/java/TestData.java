@@ -1,8 +1,4 @@
-package domain.core;
-
-import com.loc.material.api.*;
-
-public class MaterialTestData {
+public class TestData {
    static final String LANGR_YEAR = "2005";
    public static final String LANGR_CLASSIFICATION = "LAN888";
    static final String LANGR_TITLE = "Agile Java";

@@ -1,15 +1,8 @@
-package api.library;
-
-import static domain.core.BranchTest.*;
-import static domain.core.MaterialTestData.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 import java.util.*;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
-import com.loc.material.api.*;
-import domain.core.*;
-import util.DateUtil;
 
 public class HoldingService_WithExistingHoldingsTest {
    private HoldingService service;
@@ -69,14 +62,14 @@ public class HoldingService_WithExistingHoldingsTest {
    private void addTwoBranches() {
       BranchService service = new BranchService();
       service.deleteAll();
-      eastScanCode = service.add(BRANCH_EAST.getName());
-      westScanCode = service.add(BRANCH_WEST.getName());
+      eastScanCode = service.add(BranchTest.BRANCH_EAST.getName());
+      westScanCode = service.add(BranchTest.BRANCH_WEST.getName());
    }
 
    private void addThreeNewHoldings() {
-      theTrialCopy1AtEast = addHolding(eastScanCode, THE_TRIAL, 1);
-      theTrialCopy2AtWest = addHolding(westScanCode, THE_TRIAL, 2);
-      agileJavaAtWest = addHolding(westScanCode, AGILE_JAVA, 1);
+      theTrialCopy1AtEast = addHolding(eastScanCode, TestData.THE_TRIAL, 1);
+      theTrialCopy2AtWest = addHolding(westScanCode, TestData.THE_TRIAL, 2);
+      agileJavaAtWest = addHolding(westScanCode, TestData.AGILE_JAVA, 1);
    }
 
    private Holding addHolding(String branchScanCode, MaterialDetails material, int copyNumber) {
@@ -99,8 +92,8 @@ public class HoldingService_WithExistingHoldingsTest {
 
    @Test
    public void storesNewHoldingAtBranch() {
-      String holdingId = Holding.createBarCode(THE_TRIAL.getClassification(), 3);
-      classificationApi.add(THE_TRIAL);
+      String holdingId = Holding.createBarCode(TestData.THE_TRIAL.getClassification(), 3);
+      classificationApi.add(TestData.THE_TRIAL);
 
       service.add(holdingId, eastScanCode);
 
@@ -115,9 +108,9 @@ public class HoldingService_WithExistingHoldingsTest {
 
    @Test
    public void updatesBranchOnHoldingTransfer() {
-      service.transfer(agileJavaAtWest, BRANCH_EAST);
+      service.transfer(agileJavaAtWest, BranchTest.BRANCH_EAST);
 
-      assertThat(agileJavaAtWest.getBranch(), equalTo(BRANCH_EAST));
+      assertThat(agileJavaAtWest.getBranch(), equalTo(BranchTest.BRANCH_EAST));
    }
 
    @Test
@@ -167,7 +160,7 @@ public class HoldingService_WithExistingHoldingsTest {
 
    @Test
    public void updatesPatronWithHoldingOnCheckout() {
-      String barCode = Holding.createBarCode(LANGR_CLASSIFICATION, 1);
+      String barCode = Holding.createBarCode(TestData.LANGR_CLASSIFICATION, 1);
 
       service.checkOut(joeId, barCode, new Date());
 
@@ -213,7 +206,7 @@ public class HoldingService_WithExistingHoldingsTest {
       service.checkOut(joeId, barCode, new Date());
       Date fiveDaysLate = DateUtil.addDays(service.dateDue(barCode), 5);
 
-      int daysLate = service.checkIn(barCode, fiveDaysLate, EAST_SCAN);
+      int daysLate = service.checkIn(barCode, fiveDaysLate, BranchTest.EAST_SCAN);
 
       assertThat(daysLate, equalTo(5));
    }

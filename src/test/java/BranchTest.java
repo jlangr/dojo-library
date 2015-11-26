@@ -1,9 +1,6 @@
-package domain.core;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import org.junit.*;
-import testutil.EqualityTester;
 
 public class BranchTest {
    public static final String EAST = "east";

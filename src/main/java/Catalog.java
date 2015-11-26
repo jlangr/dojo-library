@@ -1,5 +1,3 @@
-package domain.core;
-
 import java.util.*;
 
 public class Catalog implements Iterable<Holding> {

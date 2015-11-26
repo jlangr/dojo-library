@@ -1,5 +1,3 @@
-package testutil;
-
 import static org.junit.Assert.*;
 
 public class EqualityTester {

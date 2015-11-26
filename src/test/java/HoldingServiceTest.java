@@ -1,12 +1,8 @@
-package api.library;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
-import com.loc.material.api.*;
-import domain.core.*;
 
 public class HoldingServiceTest {
    static final String CLASSIFICATION = "123";

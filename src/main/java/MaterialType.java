@@ -1,5 +1,3 @@
-package com.loc.material.api;
-
 public enum MaterialType {
    Book(21, 10),
    AudioCassette(14, 10),

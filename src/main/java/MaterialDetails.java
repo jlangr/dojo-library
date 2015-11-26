@@ -1,5 +1,3 @@
-package com.loc.material.api;
-
 public class MaterialDetails {
    private String title;
    private String author;

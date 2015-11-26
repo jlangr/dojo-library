@@ -1,13 +1,8 @@
-package api.library;
-
-import static domain.core.BranchTest.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 import java.util.Collection;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
-import domain.core.*;
-import testutil.TestUtil;
 
 public class BranchServiceTest {
    private BranchService service;
@@ -59,14 +54,14 @@ public class BranchServiceTest {
 
       Branch branch = service.find(scanCode);
 
-      assertThat(branch.getName(), equalTo(BRANCH_EAST.getName()));
+      assertThat(branch.getName(), equalTo(BranchTest.BRANCH_EAST.getName()));
       assertThat(branch.getScanCode(), equalTo(scanCode));
    }
 
    @Test
    public void allBranchesReturnsListOfAllPersistedBranches() {
-      String eastScanCode = service.add(BRANCH_EAST.getName());
-      String westScanCode = service.add(BRANCH_WEST.getName());
+      String eastScanCode = service.add(BranchTest.BRANCH_EAST.getName());
+      String westScanCode = service.add(BranchTest.BRANCH_WEST.getName());
 
       Collection<Branch> all = new BranchService().allBranches();
 

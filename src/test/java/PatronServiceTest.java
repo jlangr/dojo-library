@@ -1,10 +1,7 @@
-package api.library;
-
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import org.junit.*;
 import org.junit.rules.*;
-import domain.core.*;
 
 public class PatronServiceTest {
    static String RAVI = "Ravi Sankaran";

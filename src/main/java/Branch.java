@@ -1,5 +1,3 @@
-package domain.core;
-
 public class Branch {
    public static final Branch CHECKED_OUT = new Branch("unavailable", "b999999");
    private String name;

@@ -1,13 +1,10 @@
-package domain.core;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 import org.junit.*;
-import testutil.EqualityTester;
 
 public class PatronTest {
    private Patron jane;
-   private static final Holding A_HOLDING = new Holding(MaterialTestData.THE_TRIAL, BranchTest.BRANCH_EAST);
+   private static final Holding A_HOLDING = new Holding(TestData.THE_TRIAL, BranchTest.BRANCH_EAST);
 
    @Before
    public void initialize() {

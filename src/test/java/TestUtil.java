@@ -1,5 +1,3 @@
-package testutil;
-
 import java.util.*;
 import org.junit.*;
 

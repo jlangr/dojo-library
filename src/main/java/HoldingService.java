@@ -1,8 +1,4 @@
-package api.library;
-
 import java.util.*;
-import com.loc.material.api.*;
-import domain.core.*;
 
 public class HoldingService {
    private Catalog catalog = new Catalog();
