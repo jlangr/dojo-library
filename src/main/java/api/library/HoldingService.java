@@ -17,14 +17,14 @@ public class HoldingService {
       MaterialDetails material =
             ClassificationApiFactory.getService().getMaterialDetails(classification);
       if (material == null)
-         throw new InvalidClassificationException();
+         throw new RuntimeException("invalid classification");
       return new Holding(material, findBranch(branchId),
             HoldingBarcode.getCopyNumber(holdingBarcode));
    }
 
    private void throwIfHoldingAlreadyExists(String holdingBarcode) {
       if (find(holdingBarcode) != null)
-         throw new DuplicateHoldingException();
+         throw new RuntimeException("duplicate holding");
    }
 
    private Branch findBranch(String branchId) {
@@ -37,7 +37,7 @@ public class HoldingService {
    public boolean isAvailable(String barCode) {
       Holding holding = find(barCode);
       if (holding == null)
-         throw new HoldingNotFoundException();
+         throw new RuntimeException("holding not found");
       return holding.isAvailable();
    }
 
@@ -59,7 +59,7 @@ public class HoldingService {
    public Date dateDue(String barCode) {
       Holding holding = find(barCode);
       if (holding == null) {
-         throw new HoldingNotFoundException();
+         throw new RuntimeException("holding not found");
       }
       return holding.dateDue();
    }
@@ -67,13 +67,12 @@ public class HoldingService {
    public void checkOut(String patronId, String barCode, Date date) {
       Holding holding = find(barCode);
       if (holding == null) {
-         throw new HoldingNotFoundException();
+         throw new RuntimeException("holding not found");
       }
       if (!holding.isAvailable())
-         throw new HoldingAlreadyCheckedOutException();
+         throw new RuntimeException("holding already checked out");
       holding.checkOut(date);
 
-//      PatronStore patronAccess = new PatronStore();
       PatronService patronService = new PatronService();
       Patron patron = patronService.find(patronId);
       patronService.addHoldingToPatron(patron, holding);
@@ -84,7 +83,7 @@ public class HoldingService {
       Branch branch = new BranchService().find(branchScanCode);
       Holding hld = find(barCode);
       if (hld == null)
-         throw new HoldingNotFoundException();
+         throw new RuntimeException("holding not found");
 
       // set the holding to returned status
       HoldingMap holdings = null;

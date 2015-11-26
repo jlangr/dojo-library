@@ -6,8 +6,8 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import java.util.*;
 import org.junit.*;
+import org.junit.rules.*;
 import com.loc.material.api.*;
-import persistence.*;
 import util.*;
 import domain.core.*;
 
@@ -19,6 +19,9 @@ public class HoldingService_WithExistingHoldingsTest {
    private String eastScanCode;
    private String westScanCode;
    private String joeId;
+
+   @Rule
+   public ExpectedException exception = ExpectedException.none();
 
    @Before
    public void initialize() {
@@ -102,23 +105,35 @@ public class HoldingService_WithExistingHoldingsTest {
       assertThat(service.isAvailable(agileJavaAtWest.getBarCode()), is(false));
    }
 
-   @Test(expected = HoldingNotFoundException.class)
+   @Test
    public void availabilityCheckThrowsWhenHoldingNotFound() {
+      exception.expect(RuntimeException.class);
+      exception.expectMessage("holding not found");
+
       service.isAvailable("345:1");
    }
 
-   @Test(expected = HoldingNotFoundException.class)
+   @Test
    public void checkoutThrowsWhenHoldingIdNotFound() {
+      exception.expect(RuntimeException.class);
+      exception.expectMessage("holding not found");
+
       service.checkOut(joeId, "999:1", new Date());
    }
 
-   @Test(expected = HoldingNotFoundException.class)
+   @Test
    public void checkinThrowsWhenHoldingIdNotFound() {
+      exception.expect(RuntimeException.class);
+      exception.expectMessage("holding not found");
+
       service.checkIn("999:1", new Date(), eastScanCode);
    }
 
-   @Test(expected = HoldingAlreadyCheckedOutException.class)
+   @Test
    public void checkoutThrowsWhenUnavailable() {
+      exception.expect(RuntimeException.class);
+      exception.expectMessage("holding already checked out");
+
       service.checkOut(joeId, agileJavaAtWest.getBarCode(), new Date());
       service.checkOut(joeId, agileJavaAtWest.getBarCode(), new Date());
    }

@@ -3,11 +3,14 @@ package api.library;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import org.junit.*;
-import com.loc.material.api.*;
+import org.junit.rules.*;
 import domain.core.*;
 
 public class PatronServiceTest {
    static String RAVI = "Ravi Sankaran";
+
+   @Rule
+   public ExpectedException exception = ExpectedException.none();
 
    PatronService service;
 
@@ -32,13 +35,19 @@ public class PatronServiceTest {
       assertThat(patron.getName(), is("xyz"));
    }
 
-   @Test(expected=InvalidPatronIdException.class)
+   @Test
    public void rejectsPatronIdNotStartingWithP() {
+      exception.expect(IllegalArgumentException.class);
+      exception.expectMessage("invalid patron id");
+
       service.add("", "234");
    }
 
-   @Test(expected=DuplicatePatronException.class)
+   @Test
    public void rejectsAddOfDuplicatePatron() {
+      exception.expect(IllegalArgumentException.class);
+      exception.expectMessage("duplicate patron");
+
       service.add("", "p556");
       service.add("", "p556");
    }

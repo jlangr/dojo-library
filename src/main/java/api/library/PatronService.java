@@ -4,7 +4,7 @@ import java.util.*;
 import domain.core.*;
 
 public class PatronService {
-   private static Collection<Patron> patrons = new ArrayList<Patron>();
+   private static Collection<Patron> patrons = new ArrayList<>();
    private static int idIndex = 0;
 
    public void deleteAll() {
@@ -16,13 +16,13 @@ public class PatronService {
    }
 
    public String add(String name, String id) {
-      if (!id.startsWith("p")) throw new InvalidPatronIdException();
+      if (!id.startsWith("p")) throw new IllegalArgumentException("invalid patron id");
       return save(new Patron(name, id));
    }
 
    private String save(Patron newPatron) {
       if (find(newPatron.getId()) != null)
-         throw new DuplicatePatronException();
+         throw new IllegalArgumentException("duplicate patron");
 
       if (newPatron.getId() == "")
          newPatron.setId("p" + (++idIndex));
@@ -50,7 +50,7 @@ public class PatronService {
    public void addHoldingToPatron(Patron patron, Holding holding) {
       Patron found = find(patron.getId());
       if (found == null)
-         throw new PatronNotFoundException();
+         throw new RuntimeException("patron not found");
       found.add(holding);
    }
 }
