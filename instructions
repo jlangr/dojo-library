@@ -1,0 +1,13 @@
+The library source base manages basic functionality for a library system.
+
+Core domain terminology:
+
+holding: a material available to be borrowed. Identified by a barcode:
+               QA1234567:1      the first copy of the material with classification code QA1234567
+               QA1234567:2      the 2nd copy of the material with classification code QA1234567
+branch: a physical location in the library system that patrons can visit
+patron: a person who borrows materials
+classification: the Library of Congress code that uniquely identifies a material
+
+The library system codebase is in need of refactoring. Specifically, the checkIn method
+in HoldingService.java is a disaster.
